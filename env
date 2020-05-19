@@ -20,7 +20,7 @@ CI_ENVIRONMENT = development
 # APP
 #--------------------------------------------------------------------
 
- app.baseURL = 'http://localhost/CI4-CRUD'
+ app.baseURL = 'http://localhost/Codeigniter4-CRUD-AJAX'
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'
