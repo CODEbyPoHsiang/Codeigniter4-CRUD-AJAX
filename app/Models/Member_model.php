@@ -52,9 +52,9 @@ class Member_model extends Model
         return $this->db->insertID();
     }
 
-    public function member_update($where, $data)
+    public function member_update($id, $data)
     {
-        $this->db->table($this->table)->update($data, $where);
+        $this->db->table($this->table)->update($data, array('id' => $id));
         //        print_r($this->db->getLastQuery());
         return $this->db->affectedRows();
 ;
