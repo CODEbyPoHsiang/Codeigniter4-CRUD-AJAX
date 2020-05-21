@@ -26,6 +26,8 @@ class Member extends Controller
         return view('member_view', $data);
     }
 
+
+
     public function member_add()
     {
 

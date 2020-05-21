@@ -7,27 +7,38 @@ use CodeIgniter\Model;
 class Member_model extends Model
 {
 
-    var $table = 'member';
-
-    public function __construct()
-    {
-        parent::__construct();
-        //$this->load->database();
-        $db = \Config\Database::connect();
-        $db->table('member');
-    }
+    
+    
+    protected $table = 'member';
+    // public function __construct()
+    // {
+    //     parent::__construct();
+    //     //$this->load->database();
+    //     $db = \Config\Database::connect();
+    //     $db->table('member');
+    // }
 
     public function get_all_member()
     {
-        $query = $this->db->query('select * from member');
+        return $this->db->query("SELECT * FROM member;")->getResult();
         //      print_r($query->getResult());
         // $query = $this->db->get();
-        return $query->getResult();
+        
+        
     }
+
+    // public function get_all_member($id = false)
+    // {
+    //     if ($id === false) {
+    //         return $this->findAll();
+    //     } else {
+    //         return $this->getWhere(['id' => $id])->getRowArray();
+    //     }
+    // }
 
     public function get_by_id($id)
     {
-        $sql = 'select * from member where id =' . $id;
+        $sql = "SELECT * FROM member WHERE id =" . $id;
         $query =  $this->db->query($sql);
 
         return $query->getRow();
@@ -36,16 +47,17 @@ class Member_model extends Model
     public function member_add($data)
     {
 
-        $add_query = $this->db->table($this->table)->insert($data);
+        $this->db->table($this->table)->insert($data);
 
-        return $add_query;
+        return $this->db->insertID();
     }
 
     public function member_update($where, $data)
     {
-        $update_query = $this->db->table($this->table)->update($data, $where);
+        $this->db->table($this->table)->update($data, $where);
         //        print_r($this->db->getLastQuery());
-        return $update_query;
+        return $this->db->affectedRows();
+;
     }
 
     public function delete_by_id($id)
