@@ -27,22 +27,22 @@ class Member_model extends Model
         
     }
 
-    // public function get_all_member($id = false)
-    // {
-    //     if ($id === false) {
-    //         return $this->findAll();
-    //     } else {
-    //         return $this->getWhere(['id' => $id])->getRowArray();
-    //     }
-    // }
-
-    public function get_by_id($id)
+    public function get_by_id ($id = false)
     {
-        $sql = "SELECT * FROM member WHERE id =" . $id;
-        $query =  $this->db->query($sql);
-
-        return $query->getRow();
+        if ($id === false) {
+            return $this->findAll();
+        } else {
+            return $this->getWhere(['id' => $id])->getRowArray();
+        }
     }
+
+    // public function get_by_id($id)
+    // {
+    //     $sql = "SELECT * FROM member WHERE id =" . $id;
+    //     $query =  $this->db->query($sql);
+
+    //     return $query->getRow();
+    // }
 
     public function member_add($data)
     {
@@ -52,16 +52,29 @@ class Member_model extends Model
         return $this->db->insertID();
     }
 
-    public function member_update($id, $data)
+    public function member_update($id,$data)
     {
-        $this->db->table($this->table)->update($data, array('id' => $id));
+       return  $this->db->table($this->table)->update($data, array('id' => $id));
+    //    return  $this->db->table($this->table)->update( ['id' => $id]); //畫面put ok
         //        print_r($this->db->getLastQuery());
-        return $this->db->affectedRows();
-;
+        
     }
+    
+    public function updateMember($data,$id)
+    {
+       return  $this->db->table($this->table)->update($data, array('id' => $id));
+    //    return  $this->db->table($this->table)->update( ['id' => $id]); //畫面put ok
+        //        print_r($this->db->getLastQuery());
+        
+    }
+
+    // public function updateCategory($data, $id)
+    // {
+    //     return $this->db->table($this->table)->update($data, ['category_id' => $id]);
+    // }
 
     public function delete_by_id($id)
     {
-        $this->db->table($this->table)->delete(array('id' => $id));
+        return $this->db->table($this->table)->delete(array('id' => $id));
     }
 }

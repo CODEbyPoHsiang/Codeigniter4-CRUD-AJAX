@@ -30,7 +30,19 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+// $routes->get('/', 'Home::index');
+// $routes->resource('api');
+//$routes->get('自定義路由', "控制器::api的function名稱");
+//全部資料 api 路由 GET
+$routes->get('api', "Api::index");
+// 單一資料 api 路由 GET
+$routes->get('api/(:segment)','Api::show/$1');
+//新增api 路由 POST
+$routes->post('api/new','Api::new');
+//修改api 路由 PUT
+$routes->put('api/edit/(:segment)','Api::edit/$1');
+//刪除api路由 DELETE
+$routes->delete('api/delete/(:segment)','Api::delete/$1');
 
 /**
  * --------------------------------------------------------------------

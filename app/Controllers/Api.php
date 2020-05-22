@@ -11,11 +11,26 @@ class Api extends ResourceController
 
     public function index()
     {
-        return $this->respond($this->model->findAll(), 200);
+        $index=$this->model->findAll();
+
+        if ($index) {
+            $response = [
+                '200' => '資料載入成功!',
+                'data' => $index,
+            ];
+            return $this->respond($response, 200);
+        } else {
+            $response = [
+                '404' => '無任何資料!',
+            ];
+            return $this->respond($response, 404);
+        }
+
+        // return $this->respond($this->model->findAll(), 200);
     }
 
     //新增的api //POST
-    public function create()
+    public function new()
     {
         // $validation =  \Config\Services::validation();
 
@@ -29,6 +44,7 @@ class Api extends ResourceController
         $postcode = $this->request->getPost('postcode');
         $address = $this->request->getPost('address');
         $notes = $this->request->getPost('notes');
+                    
 
         $data = [
             'name' => $name,
@@ -41,6 +57,8 @@ class Api extends ResourceController
             'postcode' => $postcode,
             'address' => $address,
             'notes' => $notes,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
 
         ];
 
@@ -54,11 +72,9 @@ class Api extends ResourceController
         // } else {
         $insert = $this->model->member_add($data);
         if ($insert) {
-            $msg = ['message' => 'Created member successfully'];
             $response = [
-                'status' => 200,
-                'error' => false,
-                'data' => $msg,
+                '200' => "資料新增成功!",
+                'data' => $data,
             ];
             return $this->respond($response, 200);
         }
@@ -71,24 +87,22 @@ class Api extends ResourceController
         $get = $this->model->get_by_id($id);
         if ($get) {
             $response = [
-                'status' => 200,
-                'error' => false,
+                '200' => '資料載入成功!',
                 'data' => $get,
             ];
             return $this->respond($response, 200);
         } else {
-            $msg = ['message' => 'Not Found'];
             $response = [
-                'status' => 404,
-                'error' => false,
-                'data' => $msg,
+                '404' => '查無此筆資料，操作錯誤!',
             ];
+            return $this->respond($response, 404);
         }
     }
 
-    //修改api //PUT
-    public function update($id = NULL)
+    //修改api //PUT //有問題要修改
+    public function edit($id = NULL)
     {
+        
         //$validation =  \Config\Services::validation();
         // $name   = $this->request->getRawInput('name');
         // $ename = $this->request->getRawInput('ename');
@@ -100,8 +114,11 @@ class Api extends ResourceController
         // $postcode = $this->request->getRawInput('postcode');
         // $address = $this->request->getRawInput('address');
         // $notes = $this->request->getRawInput('notes');
+        
         $data = $this->request->getRawInput();
-
+        // $time = $this->request->getRawInput('updated_at');
+  
+        // $time = ['updated_at' => date('Y-m-d H:i:s'),];
         // $data = [
         //     'name' => $name,
         //     'ename' => $ename,
@@ -122,17 +139,37 @@ class Api extends ResourceController
         //     ];
         //     return $this->respond($response, 500);
         // } else {
-        $update = $this->model->member_update($data, $id);
+        $update = $this->model->updateMember($data,$id);
         if ($update) {
-            $msg = ['message' => 'Updated member successfully'];
             $response = [
-                'status' => 200,
-                'error' => false,
-                'data' => $msg,
+                '200' => "資料修改成功!",
+                'data' => $data,
             ];
             return $this->respond($response, 200);
         }
-        // }
+        
     }
 
+    public function delete($id = NULL)
+    {
+        $delete = $this->model->delete_by_id($id);
+        if ($delete) {
+            $code = 200;
+            $msg = ['message' => '資料已經成功刪除!'];
+            $response = [
+                'status' => $code,
+                'error' => false,
+                'data' => $msg,
+            ];
+        } else {
+            $code = 401;
+            $msg = ['message' => '查無資料!'];
+            $response = [
+                'status' => $code,
+                'error' => true,
+                'data' => $msg,
+            ];
+        }
+        return $this->respond($response, $code);
+    }
 }
