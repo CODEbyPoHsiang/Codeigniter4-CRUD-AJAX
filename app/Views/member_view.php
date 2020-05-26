@@ -8,7 +8,9 @@
     <title>通訊錄 || Codeigniter 4.X</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://bootswatch.com/3/darkly/bootstrap.css">
-
+    <!-- 使用sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
     <style>
         body {
             margin: 0;
@@ -92,7 +94,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#table_id').DataTable();
+            $('#table_id');
         });
         var save_method; //for save method string
         var table;
@@ -151,6 +153,7 @@
             } else {
                 url = "<?php echo base_url('member/member_update') ?>";
                 alert('聯絡人資料已修改!');
+                
 
             }
 
@@ -191,7 +194,7 @@
 
     <!-- Bootstrap modal -->
     <div class="modal fade" id="modal_form" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
