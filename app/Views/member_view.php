@@ -70,7 +70,7 @@
             </thead>
             <tbody>
                 <?php foreach ($member as $m) { ?>
-                    <tr id="<?php $m->id; ?>">
+                    <tr >
                         <td><?php echo $m->name; ?></td>
                         <td><?php echo $m->phone; ?></td>
                         <td><?php echo $m->email; ?></td>

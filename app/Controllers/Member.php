@@ -23,6 +23,19 @@ class Member extends Controller
         helper(['form', 'url']);
         $this->Member_model = new Member_model();
         $data['member'] = $this->Member_model->get_all_member();
+
+        if ($index) {
+            $response = [
+                '200' => '資料載入成功!',
+                'data' => $index,
+            ];
+            return $this->respond($response, 200);
+        } else {
+            $response = [
+                '404' => '無任何資料!',
+            ];
+            return $this->respond($response, 404);
+        }
         return view('member_view', $data);
     }
 
@@ -56,9 +69,7 @@ class Member extends Controller
     {
 
         $this->Member_model = new Member_model();
-
         $data = $this->Member_model->get_by_id($id);
-
         echo json_encode($data);
     }
 
@@ -67,7 +78,6 @@ class Member extends Controller
 
         helper(['form', 'url']);
         $this->Member_model = new Member_model();
-
         $data = array(
             'name' => $this->request->getPost('name'),
             'ename' => $this->request->getPost('ename'),
@@ -81,7 +91,7 @@ class Member extends Controller
             'notes' => $this->request->getPost('notes'),
             'updated_at' => date('Y-m-d H:i:s'),
         );
-        $this->Member_model->member_update(array('id' => $this->request->getPost('id')), $data);
+        $this->Member_model->member_update($data,array('id' => $this->request->getPost('id')));
         echo json_encode(array("status" => TRUE));
     }
 
