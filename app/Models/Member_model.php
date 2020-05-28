@@ -6,10 +6,8 @@ use CodeIgniter\Model;
 
 class Member_model extends Model
 {
-
-    
-    
     protected $table = 'member';
+
     public function __construct()
     {
         parent::__construct();
@@ -52,7 +50,7 @@ class Member_model extends Model
     public function member_update($data,$id)
     {
        return  $this->db->table($this->table)->update($data, array('id' => $id));
-    //    return  $this->db->table($this->table)->update( ['id' => $id]); //畫面put ok
+    //    return  $this->db->table($this->table)->update( ['id' => $id]); 
         //        print_r($this->db->getLastQuery());
         
     }
