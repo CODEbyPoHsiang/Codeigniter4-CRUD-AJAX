@@ -43,7 +43,6 @@ class Member extends Controller
 
     public function member_add()
     {
-
         helper(['form', 'url']);
         $this->Member_model = new Member_model();
 
@@ -75,7 +74,6 @@ class Member extends Controller
 
     public function member_update()
     {
-
         helper(['form', 'url']);
         $this->Member_model = new Member_model();
         $data = array(
@@ -97,9 +95,8 @@ class Member extends Controller
 
     public function member_delete($id)
     {
-
         helper(['form', 'url']);
-        $this->Member_model = new Member_model();
+        $this->Member_model = new Member_model(); 
         $this->Member_model->delete_by_id($id);
         echo json_encode(array("status" => TRUE));
     }
