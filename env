@@ -45,7 +45,7 @@ CI_ENVIRONMENT = development
 # app.CSRFRegenerate  = true
 # app.CSRFExcludeURIs = []
 
-# app.CSPEnabled = false
+# app.CSPEnabled = false 
 
 #--------------------------------------------------------------------
 # DATABASE
