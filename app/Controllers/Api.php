@@ -17,7 +17,6 @@ class Api extends ResourceController
 {
     protected $format       = 'json';
     protected $modelName    = 'App\Models\Member_model';
-
     public function index()
     {
         // $index = $this->model->findAll();
@@ -34,15 +33,12 @@ class Api extends ResourceController
             ];
             return $this->respond($response, 404);
         }
-
         // return $this->respond($this->model->findAll(), 200);
     }
 
     //新增的api //POST
     public function new()
     {
-        // $validation =  \Config\Services::validation();
-
         $name   = $this->request->getPost('name');
         $ename = $this->request->getPost('ename');
         $phone = $this->request->getPost('phone');
@@ -71,14 +67,6 @@ class Api extends ResourceController
 
         ];
 
-        // if($validation->run($data, 'member') == FALSE){
-        //     $response = [
-        //         'status' => 500,
-        //         'error' => true,
-        //         'data' => $validation->getErrors(),
-        //     ];
-        //     return $this->respond($response, 500);
-        // } else {
         $insert = $this->model->member_add($data);
         if ($insert) {
             $response = [
@@ -87,7 +75,6 @@ class Api extends ResourceController
             ];
             return $this->respond($response, 200);
         }
-        // }
     }
 
     //取單一資料api/ GET
@@ -108,49 +95,20 @@ class Api extends ResourceController
         }
     }
 
-    //修改api //PUT //有問題要修改
+    //修改api //PUT 
     public function edit($id = NULL)
     {
         //若是用getPost則method要選擇POST
         //若使用getRawIput不用全部欄位都使用，只需要 request->getRawInput即可
         //即會收到使用者更新的資料
-        
-        //$validation =  \Config\Services::validation();
-        // $name   = $this->request->getRawInput('name');
-        // $ename = $this->request->getRawInput('ename');
-        // $phone = $this->request->getRawInput('phone');
-        // $email = $this->request->getRawInput('email');
-        // $sex = $this->request->getRawInput('sex');
-        // $city = $this->request->getRawInput('city');
-        // $township = $this->request->getRawInput('township');
-        // $postcode = $this->request->getRawInput('postcode');
-        // $address = $this->request->getRawInput('address');
-        // $notes = $this->request->getRawInput('notes');
-        
         $data = $this->request->getRawInput();
-  
-        // $data = [
-        //     'name' => $name,
-        //     'ename' => $ename,
-        //     'phone' => $phone,
-        //     'email' => $email,
-        //     'sex' => $sex,
-        //     'city' => $city,
-        //     'township' => $township,
-        //     'postcode' => $postcode,
-        //     'address' => $address,
-        //     'notes' => $notes,
-        // ];
-        // if($validation->run($data, 'member') == FALSE){
-        //     $response = [
-        //         'status' => 500,
-        //         'error' => true,
-        //         'data' => $validation->getErrors(),
-        //     ];
-        //     return $this->respond($response, 500);
-        // } else {
         $update = $this->model->member_update($data,$id);
-        if ($update) {
+        if (!$update) {
+            $response = [
+                '404' => "資料xx!",
+            ];
+            return $this->respond($response, 404);
+        }{
             $response = [
                 '200' => "資料修改成功!",
                 'data' => $data,
@@ -170,7 +128,6 @@ class Api extends ResourceController
         if ($this->model->db->affectedRows() === 1) {
             $response = [
                 '200' => '資料已經成功刪除!',
-                'data' => $show,
             ];
             return $this->respond($response, 200);
         } else {
